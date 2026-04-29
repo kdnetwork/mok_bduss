@@ -17,25 +17,12 @@ function getMiddle($text, $left, $right)
     return substr($text, $loc1, $loc2 - $loc1);
 }
 
-function curl_get($url, $header)
-{
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_HEADER, 0);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-    $data = curl_exec($curl);
-    curl_close($curl);
-
-    return $data;
-}
-
 function getId($bduss)
 {
     global $m;
     $data = getBaiduUserInfo($bduss);
     $ret = [];
-    $ret['valid'] = (isset($data["portrait"]) && $data["portrait"] == '') ? '0' : '1';
+    $ret['valid'] = (!isset($data["portrait"]) || $data["portrait"] == '') ? '0' : '1';
     if ($ret['valid']) {
         $ret['name'] = $data["name"];
     } else {
